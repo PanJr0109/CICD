@@ -13,6 +13,7 @@ export default function CardLineChart() {
           "April",
           "May",
           "June",
+          "July",
         ],
         datasets: [
           {
@@ -114,7 +115,7 @@ export default function CardLineChart() {
               <h6 className="uppercase text-blueGray-100 mb-1 text-xs font-semibold">
                 Overview
               </h6>
-              <h2 className="text-white text-xl font-semibold">Sales valueeeeee</h2>
+              <h2 className="text-white text-xl font-semibold">Sales value</h2>
             </div>
           </div>
         </div>

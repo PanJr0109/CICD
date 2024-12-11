@@ -16,49 +16,24 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: Use Node.js ${{ matrix.node-version }}
+
+    - name: Set up Node.js
       uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+
     - run: npm ci
     - run: npm run build --if-present
+    - run: npm test -- --passWithNoTests
 
-    # Check if the build folder exists
-    - name: Check if build folder exists
-      run: |
-        if [ ! -d "build" ]; then
-          echo "Error: Build folder does not exist. Make sure the build step runs successfully."
-          exit 1
-        fi
-
-    # Set Git user identity
-    - name: Set Git user identity
-      run: |
-        git config --global user.name "panjr0109"
-        git config --global user.email "panjr0109@github.com"
-
-    # Clean gh-pages branch: Check if files exist before attempting to remove them
-    - name: Clean gh-pages branch
-      run: |
-        git fetch origin
-        git checkout gh-pages || git checkout --orphan gh-pages
-        
-        # Pull remote changes before cleaning
-        git pull origin gh-pages --rebase
-
-        # Clean the branch (remove files if necessary)
-        git rm -rf .
-        git commit --allow-empty -m "Clean branch"
-        
-        # Push the changes
-        git push origin gh-pages
-
-    # Deploy to GitHub Pages
-    - name: Deploy
+    - name: Deploy to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@v4
       with:
         folder: build
         token: ${{ secrets.GITHUB_TOKEN }}
         force: true
+        keep-history: true
         clean: true
+        # Thêm tùy chọn deploy mặc dù không có sự thay đổi
+        commit-message: 'Deploying latest updates'

@@ -14,30 +14,39 @@ jobs:
     strategy:
       matrix:
         node-version: [18.x, 20.x, 22.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-      - uses: actions/checkout@v4
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'npm'
-      - run: npm ci
-      - run: npm run build --if-present
-      - run: npm test -- --passWithNoTests
-      - name: Clean gh-pages branch
-        run: |
-          git fetch origin
-          git checkout gh-pages || git checkout --orphan gh-pages
-          git rm -rf .
-          git clean -fdx
-          git commit --allow-empty -m "Clean branch"
-          git push origin gh-pages
-      - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          folder: build 
-          token: ${{ secrets.GITHUB_TOKEN }}
-          force: true
-          clean: true
+    - uses: actions/checkout@v4
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - run: npm ci
+    - run: npm run build --if-present
+    - run: npm test -- --passWithNoTests
+
+    # Set Git user identity
+    - name: Set Git user identity
+      run: |
+        git config --global user.name "GitHub Actions"
+        git config --global user.email "actions@github.com"
+
+    # Clean gh-pages branch
+    - name: Clean gh-pages branch
+      run: |
+        git fetch origin
+        git checkout gh-pages || git checkout --orphan gh-pages
+        git rm -rf .
+        git clean -fdx
+        git commit --allow-empty -m "Clean branch"
+        git push origin gh-pages
+
+    # Deploy
+    - name: Deploy
+      uses: JamesIves/github-pages-deploy-action@v4
+      with:
+        folder: build
+        token: ${{ secrets.GITHUB_TOKEN }}
+        force: true
+        clean: true

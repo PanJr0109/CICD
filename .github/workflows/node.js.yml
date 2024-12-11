@@ -35,8 +35,8 @@ jobs:
     # Set Git user identity
     - name: Set Git user identity
       run: |
-        git config --global user.name "GitHub Actions"
-        git config --global user.email "actions@github.com"
+        git config --global user.name "panjr0109"
+        git config --global user.email "panjr0109@github.com"
 
     # Clean gh-pages branch: Check if files exist before attempting to remove them
     - name: Clean gh-pages branch

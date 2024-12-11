@@ -12,7 +12,7 @@ export default function CardLineChart() {
           "March",
           "April",
           "May",
-          "Juneeeeeeeêsdfasdfasdfasdfasdfasdfà",
+          "June",
         ],
         datasets: [
           {
@@ -112,9 +112,9 @@ export default function CardLineChart() {
           <div className="flex flex-wrap items-center">
             <div className="relative w-full max-w-full flex-grow flex-1">
               <h6 className="uppercase text-blueGray-100 mb-1 text-xs font-semibold">
-                Overview Chart
+                Overview
               </h6>
-              <h2 className="text-white text-xl font-semibold">Salessssssssssssss value</h2>
+              <h2 className="text-white text-xl font-semibold">Sales value</h2>
             </div>
           </div>
         </div>

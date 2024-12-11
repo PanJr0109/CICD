@@ -43,13 +43,15 @@ jobs:
       run: |
         git fetch origin
         git checkout gh-pages || git checkout --orphan gh-pages
-        # Check if the branch has files, and remove them if it does
-        if [ -n "$(git ls-files)" ]; then
-          git rm -rf .
-          git commit --allow-empty -m "Clean branch"
-        else
-          echo "No files to remove in gh-pages branch."
-        fi
+        
+        # Pull remote changes before cleaning
+        git pull origin gh-pages --rebase
+
+        # Clean the branch (remove files if necessary)
+        git rm -rf .
+        git commit --allow-empty -m "Clean branch"
+        
+        # Push the changes
         git push origin gh-pages
 
     # Deploy to GitHub Pages

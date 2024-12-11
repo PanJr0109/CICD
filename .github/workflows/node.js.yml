@@ -21,16 +21,31 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+
+    # Set up Node.js environment
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+
+    # Install dependencies and build the project
     - run: npm ci
     - run: npm run build --if-present
     - run: npm test -- --passWithNoTests
-    - name: Deploy
+
+    # Deploy to GitHub Pages
+    - name: Deploy to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@v4
       with:
-        folder: build 
+        folder: build
         token: ${{ secrets.GITHUB_TOKEN }}
+        # Force pushing to gh-pages in case of conflicts
+        force: true
+        # Optional: Remove previous contents before deployment to avoid conflicts
+        clean: true
+
+    # Post-deployment cleanup (optional)
+    - name: Clean up after deployment
+      run: |
+        echo "Deployment complete. Cleaning up..."

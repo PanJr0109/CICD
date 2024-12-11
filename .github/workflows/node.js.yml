@@ -30,9 +30,20 @@ jobs:
     - name: Run build
       run: npm run build --if-present
 
-    - name: Check if build folder has changed
+    - name: List files after build
+      run: ls -la build
+
+    - name: Check build folder existence
       run: |
-        git diff --exit-code build || echo "Build folder has changes"
+        if [ -d "build" ]; then
+          echo "Build folder exists"
+        else
+          echo "Build folder does not exist"
+          exit 1
+        fi
+
+    - name: Install gh-pages
+      run: npm install gh-pages@6.2.0
 
     - name: Clean old build (if necessary)
       run: git clean -fdx

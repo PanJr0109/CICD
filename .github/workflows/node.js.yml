@@ -27,13 +27,17 @@ jobs:
     - run: npm run build --if-present
     - run: npm test -- --passWithNoTests
 
+    - name: Check for build changes
+      run: |
+        git diff --exit-code build || echo "Build has changed"
+
+
     - name: Deploy to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@v4
       with:
         folder: build
         token: ${{ secrets.GITHUB_TOKEN }}
         force: true
-        keep-history: true
         clean: true
         # Thêm tùy chọn deploy mặc dù không có sự thay đổi
         commit-message: 'Deploying latest updates'

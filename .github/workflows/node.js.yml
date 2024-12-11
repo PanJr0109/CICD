@@ -34,7 +34,7 @@ jobs:
       with:
         folder: build 
         token: ${{ secrets.GITHUB_TOKEN }}
-         force: true
+        force: true
         # Đảm bảo không gặp lỗi khi có thay đổi
         keep-history: true  # Duy trì lịch sử commit trên gh-pages
         clean: true  # Xóa bỏ các file không cần thiết khỏi gh-pages

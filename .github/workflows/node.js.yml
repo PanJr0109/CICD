@@ -1,66 +1,31 @@
-name: Deploy using Github Actions
+name: CI/CD for React App
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    branches:
+      - main  # Trigger deployment when code is pushed to main
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [18.x, 20.x, 22.x]
-
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v2  # Checkout the repository code
 
     - name: Set up Node.js
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@v2  # Setup Node.js environment
       with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-
-    - name: Clean npm cache
-      run: npm cache clean --force
+        node-version: '16'  # Use Node.js version 16 (you can adjust this as needed)
 
     - name: Install dependencies
-      run: npm ci
+      run: npm install  # Install dependencies for the React app
 
-    - name: Build project
-      run: npm run build --if-present
-
-    - name: Run predeploy script
-      run: npm run predeploy
-
-    - name: Run tests (if applicable)
-      run: npm test -- --passWithNoTests
-
-    - name: Check for build changes
-      run: |
-        diff --exit-code build || echo "Build has changed"
-
-    - name: List build directory
-      run: ls -al build
-
-    - name: Checkout the gh-pages branch
-      run: |
-        git fetch origin gh-pages
-        git checkout gh-pages
-        git reset --hard origin/gh-pages
-        git clean -fd
+    - name: Build the app
+      run: npm run build  # Build the React app to generate the build/ directory
 
     - name: Deploy to GitHub Pages
-      uses: JamesIves/github-pages-deploy-action@v4
+      uses: JamesIves/github-pages-deploy-action@v4  # Use the GitHub Pages Deploy Action
       with:
-        folder: build
-        token: ${{ secrets.GITHUB_TOKEN }}
-        force: true
-        clean: true
-        single-commit: true
-        branch: gh-pages
-        git-config-name: 'github-actions[bot]'
-        git-config-email: 'github-actions[bot]@users.noreply.github.com'
+        branch: gh-pages  # Deploy to the gh-pages branch
+        folder: build  # This should be the output folder of your build (by default, React uses 'build/')

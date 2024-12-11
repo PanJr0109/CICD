@@ -31,7 +31,11 @@ jobs:
       run: npm run build --if-present
 
     - name: List files after build
-      run: ls -la build
+      run: |
+        echo "Listing files in the root directory:"
+        ls -la
+        echo "Listing files in the build directory:"
+        ls -la build || echo "No build directory found"
 
     - name: Check build folder existence
       run: |

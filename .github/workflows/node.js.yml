@@ -24,8 +24,9 @@ jobs:
     - name: Build the app
       run: npm run build  # Build the React app to generate the build/ directory
 
-    - name: Deploy to GitHub Pages
-      uses: JamesIves/github-pages-deploy-action@v4  # Use the GitHub Pages Deploy Action
-      with:
-        branch: gh-pages  # Deploy to the gh-pages branch
-        folder: build  # This should be the output folder of your build (by default, React uses 'build/')
+    - name: Deploy with gh-pages
+      run: |
+        git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
+        npx gh-pages -d build -u "github-actions-bot <support+actions@github.com>"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

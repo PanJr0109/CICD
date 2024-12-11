@@ -29,7 +29,7 @@ jobs:
 
     - name: Check for build changes
       run: |
-        git diff --exit-code build || echo "Build has changed"
+        diff --exit-code build || echo "Build has changed"
 
 
     - name: Deploy to GitHub Pages
@@ -39,5 +39,3 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
         force: true
         clean: true
-        # Thêm tùy chọn deploy mặc dù không có sự thay đổi
-        commit-message: 'Deploying latest updates'

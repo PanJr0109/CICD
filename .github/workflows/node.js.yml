@@ -35,5 +35,4 @@ jobs:
         folder: build 
         token: ${{ secrets.GITHUB_TOKEN }}
         force: true
-        keep-history: true  
-        clean: true  
+        clean: true   

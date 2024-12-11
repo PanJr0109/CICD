@@ -46,10 +46,12 @@ jobs:
     - name: List build directory
       run: ls -al build
 
-    - name: Check status of gh-pages branch
+    - name: Checkout the gh-pages branch
       run: |
         git fetch origin gh-pages
-        git diff --stat origin/gh-pages..HEAD
+        git checkout gh-pages
+        git reset --hard origin/gh-pages
+        git clean -fd
 
     - name: Deploy to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@v4

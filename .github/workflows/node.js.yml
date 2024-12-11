@@ -33,6 +33,8 @@
         run: |
           diff --exit-code build || echo "Build has changed"
 
+      - name: List build directory
+        run: ls -al build
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
@@ -40,8 +42,6 @@
           folder: build
           token: ${{ secrets.GITHUB_TOKEN }}
           force: true
-          clean: true
-          single-commit: true
           branch: gh-pages
           git-config-name: 'github-actions[bot]'
           git-config-email: 'github-actions[bot]@users.noreply.github.com'

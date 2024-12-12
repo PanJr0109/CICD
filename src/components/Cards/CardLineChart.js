@@ -12,7 +12,8 @@ export default function CardLineChart() {
           "March",
           "April",
           "May",
-          "June",,
+          "June",
+          "July",
         ],
         datasets: [
           {
